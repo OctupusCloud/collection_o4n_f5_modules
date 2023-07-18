@@ -28,7 +28,7 @@ requirements:
 options:
   before_date:
     description:
-      - This is a specific date provided as an input to the module. 
+      - This is a specific date provided as an input to the module.
       - The main function of the module will use this date as a reference point to remove all nodes that have been disabled before this date.
       - The date should be provided in the YYYY/MM/DD format.
     type: str
@@ -209,9 +209,9 @@ def main():
     before_date = module.params['before_date']
     provider = module.params['provider']
 
-    success,msg_ret,output = prune_disabled_nodes_from_date(provider, before_date, module)
+    success, msg_ret, output = prune_disabled_nodes_from_date(provider, before_date, module)
     if success:
-            module.exit_json(failed=False, msg=msg_ret, content=output)
+        module.exit_json(failed=False, msg=msg_ret, content=output)
     else:
         module.fail_json(failed=True, msg=msg_ret, content=output)
 
