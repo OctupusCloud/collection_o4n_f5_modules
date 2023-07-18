@@ -28,7 +28,9 @@ requirements:
 options:
   before_date:
     description:
-      - This is a specific date provided as an input to the module. The main function of the module will use this date as a reference point to remove all nodes that have been disabled before this date. The date should be provided in the YYYY/MM/DD format.
+      - This is a specific date provided as an input to the module. 
+      - The main function of the module will use this date as a reference point to remove all nodes that have been disabled before this date.
+      - The date should be provided in the YYYY/MM/DD format.
     type: str
     required: True
   provider:
@@ -111,6 +113,7 @@ requests.packages.urllib3.disable_warnings()
 
 BASE_HEADERS = {'Content-Type': 'application/json'}
 
+
 def prune_disabled_nodes_from_date(provider, before_date_str, module):
     try:
         host = provider["host"]
@@ -167,34 +170,33 @@ def prune_disabled_nodes_from_date(provider, before_date_str, module):
         return status, msg_ret, []
 
 
-
 def main():
     module = AnsibleModule(
-        argument_spec = dict(
-            before_date = dict(required=True, type='str'),
-            provider = dict(
-                type = 'dict',
-                default= {},
-                options = dict(
-                    user = dict(
+        argument_spec=dict(
+            before_date=dict(required=True, type='str'),
+            provider=dict(
+                type='dict',
+                default={},
+                options=dict(
+                    user=dict(
                         required=True,
                         fallback=(env_fallback, ['F5_USER', 'ANSIBLE_NET_USERNAME'])
                     ),
-                    password = dict(
+                    password=dict(
                         required=True,
                         no_log=True,
                         fallback=(env_fallback, ['F5_PASSWORD', 'ANSIBLE_NET_PASSWORD'])
                     ),
-                    host = dict(
+                    host=dict(
                         required=True,
                         fallback=(env_fallback, ['F5_SERVER'])
                     ),
-                    port = dict(
+                    port=dict(
                         type='int',
                         default=443,
                         fallback=(env_fallback, ['F5_SERVER_PORT']),
                     ),
-                    validate_certs= dict(
+                    validate_certs=dict(
                         type='bool',
                         default=False,
                         fallback=(env_fallback, ['F5_VALIDATE_CERTS'])
@@ -207,7 +209,7 @@ def main():
     before_date = module.params['before_date']
     provider = module.params['provider']
 
-    success, msg_ret, output = prune_disabled_nodes_from_date(provider, before_date, module)
+    success,msg_ret,output = prune_disabled_nodes_from_date(provider, before_date, module)
     if success:
             module.exit_json(failed=False, msg=msg_ret, content=output)
     else:
