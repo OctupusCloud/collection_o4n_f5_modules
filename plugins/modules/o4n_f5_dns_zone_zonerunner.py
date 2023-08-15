@@ -286,7 +286,6 @@ output:
       }
 """
 
-import os
 from datetime import datetime
 import bigsuds
 from ansible.module_utils.basic import AnsibleModule, env_fallback
@@ -320,13 +319,13 @@ def create_zone(_zone_name, _view_zone, _zone_type, _zone_file, option_seq, _rec
                 soa_expire = _records['soa']['expire']
                 soa_negative_ttl = _records['soa']['negative_ttl']
                 ns_ttl = _records['ns']['ttl']
-                ns_name_server= _records['ns']['ttl']
-                a_ip_address= _records['a']['ip_address']
+                ns_name_server = _records['ns']['ttl']
+                a_ip_address = _records['a']['ip_address']
                 zone_add_records = f'{_zone_name} {soa_ttl} IN SOA {soa_master_server} {soa_email_contact} {soa_serial_number} {soa_refresh_interval} {soa_retry_interval} {soa_expire} {soa_negative_ttl};\n' \
                                   f'{_zone_name} {ns_ttl} IN NS {ns_name_server};\n' \
                                   f'{ns_name_server} {ns_ttl} IN A {a_ip_address};'
 
-            b.Management.Zone.add_zone_text([zone_add_info],[[zone_add_records]], [0])
+            b.Management.Zone.add_zone_text([zone_add_info], [[zone_add_records]], [0])
             zone_exist = b.Management.Zone.zone_exist([zone_view])
             if 0 in zone_exist:
                 status = False
@@ -340,21 +339,21 @@ def create_zone(_zone_name, _view_zone, _zone_type, _zone_file, option_seq, _rec
         elif 1 in zone_exist:
             zone_old = b.Management.Zone.get_zone_v2([zone_view])
             for options in zone_old:
-              option_seq_old = options["option_seq"]
-              if (option_seq is not []) and (option_seq != option_seq_old):
-                  zone_info = {
-                      'view_name': _view_zone,
-                      'zone_name': _zone_name,
-                      'option_seq': option_seq
-                  }
-                  b.Management.Zone.set_zone_option([zone_info])
-                  zone = b.Management.Zone.get_zone_v2([zone_view])
-                  status = True
-                  msg_ret = f"Zone {_zone_name} was updated in View '{_view_zone}'", [f'{k}: {v}' for k, v in zone[0].items()]
-                  return status, msg_ret, []
+                option_seq_old = options["option_seq"]
+                if (option_seq is not []) and (option_seq != option_seq_old):
+                    zone_info = {
+                        'view_name': _view_zone,
+                        'zone_name': _zone_name,
+                        'option_seq': option_seq
+                    }
+                    b.Management.Zone.set_zone_option([zone_info])
+                    zone = b.Management.Zone.get_zone_v2([zone_view])
+                    status = True
+                    msg_ret = f"Zone {_zone_name} was updated in View '{_view_zone}'", [f'{k}: {v}' for k, v in zone[0].items()]
+                    return status, msg_ret, []
             status = True
             msg_ret = f"Zone {_zone_name} already exists in View '{_view_zone}'.."
-            return status, msg_ret, [] 
+            return status, msg_ret, []
 
     except Exception as error:
         status = False
@@ -393,65 +392,65 @@ def delete_zone(_zone_name, _view_zone, _provider):
 
 def argument_spec():
     argument_spec = dict(
-        name = dict(required=True, type='str'),
-        view = dict(required=False, type='str', default = "external"),
-        state = dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
-        type = dict(required=False, type='str', choice=['MASTER', 'SLAVE', 'STUB', 'FORWARD', 'HINT']),
-        file = dict(required=False, type='str', default=" "),
-        option_seq = dict(required=False, type='list', elements='str', default=[]),
-        records = dict(
-            required = False,
-            type = 'dict',
-            options = dict(
-                soa = dict(
-                    required = False,
-                    type = 'dict',
-                    options = dict(
-                        ttl = dict(required=False, type='int'),
-                        master_server = dict(required=False, type='str'),
-                        email_contact = dict(required=False, type='str'),
-                        serial_number = dict(required=False, type='int'),
-                        refresh_interval = dict(required=False, type='int', default= 10800),
-                        retry_interval = dict(required=False, type='int', default= 3600),
-                        expire = dict(required=False, type='int', default= 604800),
-                        negative_ttl = dict(required = False, type = 'int', default = 86400)
+        name=dict(required=True, type='str'),
+        view=dict(required=False, type='str', default = "external"),
+        state=dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
+        type=dict(required=False, type='str', choice=['MASTER', 'SLAVE', 'STUB', 'FORWARD', 'HINT']),
+        file=dict(required=False, type='str', default=" "),
+        option_seq=dict(required=False, type='list', elements='str', default=[]),
+        records=dict(
+            required=False,
+            type='dict',
+            options=dict(
+                soa=dict(
+                    required=False,
+                    type='dict',
+                    options=dict(
+                        ttl=dict(required=False, type='int'),
+                        master_server=dict(required=False, type='str'),
+                        email_contact=dict(required=False, type='str'),
+                        serial_number=dict(required=False, type='int'),
+                        refresh_interval=dict(required=False, type='int', default= 10800),
+                        retry_interval=dict(required=False, type='int', default= 3600),
+                        expire=dict(required=False, type='int', default= 604800),
+                        negative_ttl=dict(required = False, type = 'int', default = 86400)
                     )
                 ),
-                ns = dict(
-                    required = False,
-                    type = 'dict',
-                    options = dict(
-                        ttl = dict(required=False, type='int'),
-                        name_server = dict(required=False, type='str')
+                ns=dict(
+                    required=False,
+                    type='dict',
+                    options=dict(
+                        ttl=dict(required=False, type='int'),
+                        name_server=dict(required=False, type='str')
                     )
                 ),
-                a = dict(
-                    required = False,
-                    type = 'dict',
-                    options = dict(
-                        ip_address = dict(required=False, type='str')
+                a=dict(
+                    required=False,
+                    type='dict',
+                    options=dict(
+                        ip_address=dict(required=False, type='str')
                     )
                 )
             )
         ),
-        provider = dict(
-            type = 'dict',
-            default= {},
-            options = dict(
-                user = dict(
+        provider=dict(
+            type='dict',
+            default={},
+            options=dict(
+                user=dict(
                     required=True,
                     fallback=(env_fallback, ['F5_USER', 'ANSIBLE_NET_USERNAME'])
                 ),
-                password = dict(
+                password=dict(
                     required=True,
                     no_log=True,
                     fallback=(env_fallback, ['F5_PASSWORD', 'ANSIBLE_NET_PASSWORD'])
                 ),
-                host = dict(
+                host=dict(
                     required=True,
                     fallback=(env_fallback, ['F5_HOST'])
                 ),
-                host_port = dict(
+                host_port=dict(
                     type='int',
                     default=443,
                     fallback=(env_fallback, ['F5_HOST_PORT'])
@@ -466,13 +465,13 @@ def argument_spec():
 def main():
     spec = argument_spec()
     module = AnsibleModule(
-        argument_spec= spec,
-        required_if= [
-                ('type', 'MASTER', [ 'file', 'option_seq' ]),
-                ('type', 'SLAVE', [ 'file', 'option_seq' ]),
-                ('type', 'STUB', [ 'file', 'option_seq' ]),
-                ('type', 'FORWARD', [ 'option_seq' ]),
-                ('type', 'HINT', [ 'file' ])
+        argument_spec=spec,
+        required_if=[
+                ('type', 'MASTER', ['file', 'option_seq']),
+                ('type', 'SLAVE', ['file', 'option_seq']),
+                ('type', 'STUB', ['file', 'option_seq']),
+                ('type', 'FORWARD', ['option_seq']),
+                ('type', 'HINT', ['file'])
             ]
     )
     zone_name = module.params.get("name")
@@ -496,6 +495,7 @@ def main():
             module.exit_json(failed=False, msg=msg_ret, content=output)
         else:
             module.fail_json(failed=True, msg=msg_ret, content=output)
+
 
 if __name__ == "__main__":
     main()

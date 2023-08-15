@@ -267,7 +267,7 @@ tasks:
 
   - name: Create an AAAA record
     o4n_f5_dns_zone:
-      name: 
+      name:
       type: AAAA
       state: present
       ttl:
@@ -312,12 +312,12 @@ tasks:
 
   - name: Create an DS record
     o4n_f5_dns_zone:
-      name: 
+      name:
       type: DS
       state: present
-      ttl: 
-      key_tag: 
-      algorithm: 
+      ttl:
+      key_tag:
+      algorithm:
       digest_type:
       digest:
       provider:
@@ -479,11 +479,11 @@ output:
       }
 """
 
-import os
 import bigsuds
 from ansible.module_utils.basic import AnsibleModule, env_fallback
 
-##### Decorator Functions ######
+
+# Decorator Functions
 def create_record_decorator(function):
     def decorator_function(_provider, _zone_name, _view_zone, _name, *args, **kwargs):
         try:
@@ -493,7 +493,7 @@ def create_record_decorator(function):
                 'zone_name': _zone_name
             }
 
-            rr_values = function(b, zone_view, _provider, _zone_name, _view_zone, _name,*args, **kwargs)
+            rr_values = function(b, zone_view, _provider, _zone_name, _view_zone, _name, *args, **kwargs)
 
             values_list = []
             for values in rr_values.values():
@@ -522,6 +522,7 @@ def create_record_decorator(function):
 
     return decorator_function
 
+
 def delete_record_decorator(function):
     def decorator_function(_provider, _zone_name, _view_zone, _name, *args, **kwargs):
         try:
@@ -531,7 +532,7 @@ def delete_record_decorator(function):
                 'zone_name': _zone_name
             }
 
-            rr_values = function(b, zone_view, _provider, _zone_name, _view_zone, _name,*args, **kwargs)
+            rr_values = function(b, zone_view, _provider, _zone_name, _view_zone, _name, *args, **kwargs)
 
             values_list = []
             for valus in rr_values.values():
@@ -561,7 +562,7 @@ def delete_record_decorator(function):
     return decorator_function
 
 
-##### Creation Functions ######
+# Creation Functions
 @create_record_decorator
 def create_record_a(b, zone_view, _provider, _zone_name, _view_zone, _name, _ttl, _ip_address, _reverse):
     rr_values = {
@@ -570,8 +571,8 @@ def create_record_a(b, zone_view, _provider, _zone_name, _view_zone, _name, _ttl
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_a(view_zones=[zone_view],
-                                              a_records=[[rr_values]],
-                                              sync_ptrs=[_reverse])
+                                      a_records=[[rr_values]],
+                                      sync_ptrs=[_reverse])
     return rr_values
 
 
@@ -583,8 +584,8 @@ def create_record_aaaa(b, zone_view, _provider, _zone_name, _view_zone, _name, _
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_aaaa(view_zones=[zone_view],
-                                              aaaa_records=[[rr_values]],
-                                              sync_ptrs=[_reverse])
+                                         aaaa_records=[[rr_values]],
+                                         sync_ptrs=[_reverse])
     return rr_values
 
 
@@ -596,7 +597,7 @@ def create_record_cname(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_cname(view_zones=[zone_view],
-                                              cname_records=[[rr_values]])
+                                          cname_records=[[rr_values]])
     return rr_values
 
 
@@ -623,7 +624,7 @@ def create_record_ds(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_ds(view_zones=[zone_view],
-                                              ds_records=[[rr_values]])
+                                       ds_records=[[rr_values]])
     return rr_values
 
 
@@ -636,7 +637,7 @@ def create_record_hinfo(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_hinfo(view_zones=[zone_view],
-                                              hinfo_records=[[rr_values]])
+                                          hinfo_records=[[rr_values]])
     return rr_values
 
 
@@ -649,7 +650,7 @@ def create_record_mx(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_mx(view_zones=[zone_view],
-                                              mx_records=[[rr_values]])
+                                       mx_records=[[rr_values]])
     return rr_values
 
 
@@ -666,7 +667,7 @@ def create_record_naptr(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_naptr(view_zones=[zone_view],
-                                              naptr_records=[[rr_values]])
+                                          naptr_records=[[rr_values]])
     return rr_values
 
 
@@ -678,7 +679,7 @@ def create_record_ns(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_ns(view_zones=[zone_view],
-                                              ns_records=[[rr_values]])
+                                       ns_records=[[rr_values]])
     return rr_values
 
 
@@ -690,7 +691,7 @@ def create_record_ptr(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_ptr(view_zones=[zone_view],
-                                              ptr_records=[[rr_values]])
+                                        ptr_records=[[rr_values]])
     return rr_values
 
 
@@ -705,7 +706,7 @@ def create_record_srv(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_srv(view_zones=[zone_view],
-                                              srv_records=[[rr_values]])
+                                        srv_records=[[rr_values]])
     return rr_values
 
 
@@ -717,12 +718,11 @@ def create_record_txt(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_txt(view_zones=[zone_view],
-                                              txt_records=[[rr_values]])
+                                        txt_records=[[rr_values]])
     return rr_values
 
 
-
-##### Delete Functions ######
+# Delete Functions
 @delete_record_decorator
 def delete_record_a(b, zone_view, _provider, _zone_name, _view_zone, _name, _ttl, _ip_address, _reverse):
     rr_values = {
@@ -731,8 +731,8 @@ def delete_record_a(b, zone_view, _provider, _zone_name, _view_zone, _name, _ttl
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_a(view_zones=[zone_view],
-                                              a_records=[[rr_values]],
-                                              sync_ptrs=[_reverse])
+                                         a_records=[[rr_values]],
+                                         sync_ptrs=[_reverse])
     return rr_values
 
 
@@ -744,8 +744,8 @@ def delete_record_aaaa(b, zone_view, _provider, _zone_name, _view_zone, _name, _
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_aaaa(view_zones=[zone_view],
-                                              aaaa_records=[[rr_values]],
-                                              sync_ptrs=[_reverse])
+                                            aaaa_records=[[rr_values]],
+                                            sync_ptrs=[_reverse])
     return rr_values
 
 
@@ -757,7 +757,7 @@ def delete_record_cname(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_cname(view_zones=[zone_view],
-                                              cname_records=[[rr_values]])
+                                             cname_records=[[rr_values]])
     return rr_values
 
 
@@ -769,7 +769,7 @@ def delete_record_dname(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_dname(view_zones=[zone_view],
-                                              dname_records=[[rr_values]])
+                                             dname_records=[[rr_values]])
     return rr_values
 
 
@@ -784,7 +784,7 @@ def delete_record_ds(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_ds(view_zones=[zone_view],
-                                              ds_records=[[rr_values]])
+                                          ds_records=[[rr_values]])
     return rr_values
 
 
@@ -797,7 +797,7 @@ def delete_record_hinfo(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_hinfo(view_zones=[zone_view],
-                                              hinfo_records=[[rr_values]])
+                                             hinfo_records=[[rr_values]])
     return rr_values
 
 
@@ -810,7 +810,7 @@ def delete_record_mx(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_mx(view_zones=[zone_view],
-                                              mx_records=[[rr_values]])
+                                          mx_records=[[rr_values]])
     return rr_values
 
 
@@ -827,7 +827,7 @@ def delete_record_naptr(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_naptr(view_zones=[zone_view],
-                                              naptr_records=[[rr_values]])
+                                             naptr_records=[[rr_values]])
     return rr_values
 
 
@@ -839,7 +839,7 @@ def delete_record_ns(b, zone_view, _provider, _zone_name, _view_zone, _name, _tt
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_ns(view_zones=[zone_view],
-                                              ns_records=[[rr_values]])
+                                          ns_records=[[rr_values]])
     return rr_values
 
 
@@ -851,7 +851,7 @@ def delete_record_ptr(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_ptr(view_zones=[zone_view],
-                                              ptr_records=[[rr_values]])
+                                           ptr_records=[[rr_values]])
     return rr_values
 
 
@@ -866,7 +866,7 @@ def delete_record_srv(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_srv(view_zones=[zone_view],
-                                              srv_records=[[rr_values]])
+                                           srv_records=[[rr_values]])
     return rr_values
 
 
@@ -878,60 +878,60 @@ def delete_record_txt(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
         'ttl': _ttl
       }
     b.Management.ResourceRecord.delete_txt(view_zones=[zone_view],
-                                              txt_records=[[rr_values]])
+                                           txt_records=[[rr_values]])
     return rr_values
 
 
 def argument_spec():
     argument_spec = dict(
-        zone_name = dict(required=True, type='str'),
-        view_zone = dict(required=False, type='str', default = "external"),
-        name = dict(required=True, type='str'),
-        state = dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
-        type = dict(required=True, type='str', choice=['A', 'AAAA', 'CNAME', 'DNAME', 'DS', 'HINFO', 'MX', 'NAPTR', 'NS', 'PTR', 'SRV', 'TXT']),
-        ttl = dict(required=False, type='int', default= 0),
-        ip_address = dict(required=False, type='str'),
-        reverse = dict(required=False, type='int', choice=[0, 1], default= 0),
-        cname = dict(required=False, type='str'),
-        label = dict(required=False, type='str'),
-        key_tag = dict(required=False, type='int'),
-        algorithm = dict(required=False, type='int'),
-        digest_type = dict(required=False, type='int'),
-        digest = dict(required=False, type='str'),
-        hardware = dict(required=False, type='str'),
-        os = dict(required=False, type='str'),
-        preference = dict(required=False, type='int'),
-        mail = dict(required=False, type='str'),
-        order = dict(required=False, type='int'),
-        flags = dict(required=False, type='str'),
-        service = dict(required=False, type='str'),
-        regexp = dict(required=False, type='str'),
-        replacement = dict(required=False, type='str'),
-        host_name = dict(required=False, type='str'),
-        dname = dict(required=False, type='str'),
-        priority = dict(required=False, type='int'),
-        weight = dict(required=False, type='int'),
-        port = dict(required=False, type='int'),
-        target = dict(required=False, type='str'),
-        text = dict(required=False, type='str'),
-        provider = dict(
-            type = 'dict',
-            default= {},
-            options = dict(
-                user = dict(
+        zone_name=dict(required=True, type='str'),
+        view_zone=dict(required=False, type='str', default = "external"),
+        name=dict(required=True, type='str'),
+        state=dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
+        type=dict(required=True, type='str', choice=['A', 'AAAA', 'CNAME', 'DNAME', 'DS', 'HINFO', 'MX', 'NAPTR', 'NS', 'PTR', 'SRV', 'TXT']),
+        ttl=dict(required=False, type='int', default= 0),
+        ip_address=dict(required=False, type='str'),
+        reverse=dict(required=False, type='int', choice=[0, 1], default= 0),
+        cname=dict(required=False, type='str'),
+        label=dict(required=False, type='str'),
+        key_tag=dict(required=False, type='int'),
+        algorithm=dict(required=False, type='int'),
+        digest_type=dict(required=False, type='int'),
+        digest=dict(required=False, type='str'),
+        hardware=dict(required=False, type='str'),
+        os=dict(required=False, type='str'),
+        preference=dict(required=False, type='int'),
+        mail=dict(required=False, type='str'),
+        order=dict(required=False, type='int'),
+        flags=dict(required=False, type='str'),
+        service=dict(required=False, type='str'),
+        regexp=dict(required=False, type='str'),
+        replacement=dict(required=False, type='str'),
+        host_name=dict(required=False, type='str'),
+        dname=dict(required=False, type='str'),
+        priority=dict(required=False, type='int'),
+        weight=dict(required=False, type='int'),
+        port=dict(required=False, type='int'),
+        target=dict(required=False, type='str'),
+        text=dict(required=False, type='str'),
+        provider=dict(
+            type='dict',
+            default={},
+            options=dict(
+                user=dict(
                     required=True,
                     fallback=(env_fallback, ['F5_USER', 'ANSIBLE_NET_USERNAME'])
                 ),
-                password = dict(
+                password=dict(
                     required=True,
                     no_log=True,
                     fallback=(env_fallback, ['F5_PASSWORD', 'ANSIBLE_NET_PASSWORD'])
                 ),
-                host = dict(
+                host=dict(
                     required=True,
                     fallback=(env_fallback, ['F5_HOST'])
                 ),
-                host_port = dict(
+                host_port=dict(
                     type='int',
                     default=443,
                     fallback=(env_fallback, ['F5_HOST_PORT'])
@@ -946,8 +946,8 @@ def argument_spec():
 def main():
     spec = argument_spec()
     module = AnsibleModule(
-        argument_spec = spec,
-        required_if= [
+        argument_spec=spec,
+        required_if=[
             ('type', 'A', ['ip_address']),
             ('type', 'AAAA', ['ip_address']),
             ('type', 'CNAME', ['cname']),
@@ -1057,6 +1057,7 @@ def main():
             module.exit_json(failed=False, msg=msg_ret, content=output)
         else:
             module.fail_json(failed=True, msg=msg_ret, content=output)
+
 
 if __name__ == "__main__":
     main()
