@@ -609,7 +609,7 @@ def create_record_dname(b, zone_view, _provider, _zone_name, _view_zone, _name, 
         'ttl': _ttl
       }
     b.Management.ResourceRecord.add_dname(view_zones=[zone_view],
-                                              dname_records=[[rr_values]])
+                                          dname_records=[[rr_values]])
     return rr_values
 
 
@@ -885,13 +885,13 @@ def delete_record_txt(b, zone_view, _provider, _zone_name, _view_zone, _name, _t
 def argument_spec():
     argument_spec = dict(
         zone_name=dict(required=True, type='str'),
-        view_zone=dict(required=False, type='str', default = "external"),
+        view_zone=dict(required=False, type='str', default="external"),
         name=dict(required=True, type='str'),
-        state=dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
+        state=dict(required=False, type='str', choices=['present', 'absent'], default="present"),
         type=dict(required=True, type='str', choice=['A', 'AAAA', 'CNAME', 'DNAME', 'DS', 'HINFO', 'MX', 'NAPTR', 'NS', 'PTR', 'SRV', 'TXT']),
-        ttl=dict(required=False, type='int', default= 0),
+        ttl=dict(required=False, type='int', default=0),
         ip_address=dict(required=False, type='str'),
-        reverse=dict(required=False, type='int', choice=[0, 1], default= 0),
+        reverse=dict(required=False, type='int', choice=[0, 1], default=0),
         cname=dict(required=False, type='str'),
         label=dict(required=False, type='str'),
         key_tag=dict(required=False, type='int'),

@@ -322,8 +322,8 @@ def create_zone(_zone_name, _view_zone, _zone_type, _zone_file, option_seq, _rec
                 ns_name_server = _records['ns']['ttl']
                 a_ip_address = _records['a']['ip_address']
                 zone_add_records = f'{_zone_name} {soa_ttl} IN SOA {soa_master_server} {soa_email_contact} {soa_serial_number} {soa_refresh_interval} {soa_retry_interval} {soa_expire} {soa_negative_ttl};\n' \
-                                  f'{_zone_name} {ns_ttl} IN NS {ns_name_server};\n' \
-                                  f'{ns_name_server} {ns_ttl} IN A {a_ip_address};'
+                    f'{_zone_name} {ns_ttl} IN NS {ns_name_server};\n' \
+                    f'{ns_name_server} {ns_ttl} IN A {a_ip_address};'
 
             b.Management.Zone.add_zone_text([zone_add_info], [[zone_add_records]], [0])
             zone_exist = b.Management.Zone.zone_exist([zone_view])
@@ -393,8 +393,8 @@ def delete_zone(_zone_name, _view_zone, _provider):
 def argument_spec():
     argument_spec = dict(
         name=dict(required=True, type='str'),
-        view=dict(required=False, type='str', default = "external"),
-        state=dict(required=False, type='str', choices=['present', 'absent'], default = "present"),
+        view=dict(required=False, type='str', default="external"),
+        state=dict(required=False, type='str', choices=['present', 'absent'], default="present"),
         type=dict(required=False, type='str', choice=['MASTER', 'SLAVE', 'STUB', 'FORWARD', 'HINT']),
         file=dict(required=False, type='str', default=" "),
         option_seq=dict(required=False, type='list', elements='str', default=[]),
@@ -410,10 +410,10 @@ def argument_spec():
                         master_server=dict(required=False, type='str'),
                         email_contact=dict(required=False, type='str'),
                         serial_number=dict(required=False, type='int'),
-                        refresh_interval=dict(required=False, type='int', default= 10800),
-                        retry_interval=dict(required=False, type='int', default= 3600),
-                        expire=dict(required=False, type='int', default= 604800),
-                        negative_ttl=dict(required = False, type = 'int', default = 86400)
+                        refresh_interval=dict(required=False, type='int', default=10800),
+                        retry_interval=dict(required=False, type='int', default=3600),
+                        expire=dict(required=False, type='int', default=604800),
+                        negative_ttl=dict(required=False, type='int', default=86400)
                     )
                 ),
                 ns=dict(

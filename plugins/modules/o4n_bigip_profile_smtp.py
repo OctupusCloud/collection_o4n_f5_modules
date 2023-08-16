@@ -5,13 +5,55 @@
 # GNU General Public License v3.0 (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 
-DOCUMENTATION = r"""
-"""
+DOCUMENTATION = r'''
+---
+module: o4n_bigip_profile_smtp
+short_description: Manages SMTP profiles
+description:
+  - Manages SMTP profiles on the BIG-IP system.
+version_added: "1.0.0"
+options:
+  name:
+    description:
+      - Specifies the name of the profile.
+    type: str
+    required: True
+  description:
+    description:
+      - Description of the profile.
+    type: str
+  parent:
+    description:
+      - Specifies the profile from which this profile inherits settings.
+      - When creating a new profile, if this parameter is not specified, the default
+        is the system-supplied C(smtp) profile.
+    type: str
+  security:
+    description:
+      - Enables secure SMTP traffic for the BIG-IP Application Security Manager.
+      - This option can only be used if the system is licensed for the BIG-IP ASM.
+    type: bool
+  state:
+    description:
+      - When C(state) is C(present), ensures the smtp profile exists.
+      - When C(state) is C(absent), ensures the smtp profile is removed.
+    type: str
+    choices:
+      - present
+      - absent
+    default: present
+  partition:
+    description:
+      - Device partition to manage resources on.
+    type: str
+    default: Common
+author:
+  - Wojciech Wypior (@wojtek0806)
+'''
 
-EXAMPLES = r"""
+EXAMPLES = r'''
 - name: Create an smtp profile
   o4n_bigip_profile_smtp:
     name: foo
@@ -42,9 +84,9 @@ EXAMPLES = r"""
       server: lb.mydomain.com
       user: admin
   delegate_to: localhost
-"""
+'''
 
-RETURN = r"""
+RETURN = r'''
 description:
   description: Description of the profile.
   returned: changed
@@ -60,7 +102,8 @@ security:
   returned: changed
   type: bool
   sample: false
-"""
+'''
+
 from datetime import datetime
 
 from ansible.module_utils.basic import AnsibleModule, env_fallback
