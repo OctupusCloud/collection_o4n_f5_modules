@@ -1,6 +1,6 @@
 # Octupus Collection
 
-Collection o4n_f5_modules includes imperative Ansible modules for BIG-IP from F5.  
+Collection o4n_f5 includes imperative Ansible modules for BIG-IP from F5.  
 By Randy Rozo
 
 ## Required
@@ -29,5 +29,7 @@ Collection only supports python 3.6 and above
   Manage DNS zones on BIG-IP. The zones managed here are primarily used for configuring DNS on a BIG-IP ZoneRunner.  
 - win_dns_record  
   Manage DNS record on Windows Server. The records managed here are primarily used for configuring DNS records on a Windows Server.  
+- o4n_bigip_sys_failover
+  Its main function is the ability to set failover status on BIG-IP.  
 
 

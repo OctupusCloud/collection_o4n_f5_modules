@@ -255,11 +255,11 @@ tasks:
 """
 RETURN = """
 output:
-  description: List of Zones created
+  description: Information about zone operations (creation or deletion)
   type: dict
-  returned: allways
+  returned: always
   sample:
-    "output": {
+    "output_creation": {
         "changed": false,
         "msg": [
             "Zone zone.com. created: ",
@@ -272,18 +272,12 @@ output:
             ]
         ],
         "failed": false,
-      }
-
-output:
-  description: List of Zones deleted
-  type: dict
-  returned: allways
-  sample:
-    "output": {
+    }
+    "output_deletion": {
         "changed": false,
         "msg": "Zone zone.com. deleted: ",
         "failed": false,
-      }
+    }
 """
 
 from datetime import datetime
