@@ -25,6 +25,7 @@ notes:
   - Testeado en linux
 requirements:
   - ansible >= 2.10
+  - Establecer `ansible_python_interpreter` a Python 3 si es necesario.
 options:
   before_date:
     description:
